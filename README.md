@@ -71,12 +71,12 @@ memed init $MONIKER_NAME --chain-id meme-1
 Please download the genesis file, with the chain-id and airdrop balances.
 
 ```bash:
-wget -O $HOME/.memed/config/genesis.json https://github.com/MeMeCosmos/mainnet/meme-1/genesis.json
+wget -O $HOME/.memed/config/genesis.json https://github.com/memecosmos/mainnet/raw/main/meme-1/genesis.json
 ```
 
 ### Setup seeds
 Add these seeds here to the ~/.memed/config/config.toml file
-Make sure to add the provided seed and the community peers found in [`seed.txt`](https://github.com/MeMeCosmos/mainnet/meme-1/seeds.txt) and [`peers.txt`](https://github.com/MeMeCosmos/mainnet/meme-1/peers.txt) by filling the `seeds` and `persistent_peers` fields resp.
+Make sure to add the provided seed and the community peers found in [`seed.txt`](https://github.com/MeMeCosmos/mainnet/raw/main/meme-1/seeds.txt) and [`peers.txt`](https://github.com/MeMeCosmos/mainnet/raw/main/meme-1/peers.txt) by filling the `seeds` and `persistent_peers` fields resp.
 
 ### Setup `min-gas-price` to `0.025umeme` in `app.toml`
 ```
