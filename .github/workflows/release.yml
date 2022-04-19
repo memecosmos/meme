@@ -1,0 +1,164 @@
+name: MeMe Release
+
+on:
+  pull_request:
+  push:
+    tags:
+      - '*'
+    branches:
+      - main
+  workflow_dispatch:
+
+# This workflow makes x86_64 binaries for mac, windows, and linux.
+jobs:
+  version-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          fetch-depth: '0'
+
+      - name: Bump version and push new tag
+        id: bump_version
+        uses: anothrNick/github-tag-action@1.17.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          RELEASE_BRANCHES: production
+
+      - name: Save new version number result into file
+        shell: bash
+        run: |
+          echo ${{ steps.bump_version.outputs.tag }} > new_version.txt
+      - name: Upload version number for further use
+        uses: actions/upload-artifact@v1
+        with:
+          name: new_version
+          path: new_version.txt
+
+      - name: Create version number variable
+        id: vars
+        run: echo ::set-output name=version_tag_number::${{ steps.bump_version.outputs.tag }}
+
+
+
+#  docker-compose:
+#    needs: version-tag
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Docker compose
+#        run: STAKE_TOKEN="umeme" docker-compose up -d
+#        
+#      - name: Copy binary
+#        run: docker cp meme_node_1:/usr/bin/memed ./memed
+#
+#      - name: Upload release binary
+#        uses: actions/upload-release-asset@v1.0.2
+#        env:
+#          GITHUB_TOKEN: ${{ github.token }}
+#        with:
+#          upload_url: ${{ steps.get_release.outputs.upload_url }}
+#          asset_path: ./memed
+#          asset_name: memed
+#          asset_content_type: application/octet-stream
+
+
+  build-release:
+    needs: version-tag
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [amd64]
+        targetos: [darwin, linux]
+        include:
+          - targetos: darwin
+            arch: arm64
+#        include:
+#          - targetos: windows
+#            arch: amd64
+    name: meme ${{ matrix.arch }} for ${{ matrix.targetos }}
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Download version number from bump-version-push-tag
+        uses: actions/download-artifact@v1
+        with:
+          name: new_version
+
+      - name: Create version number variable
+        id: vars
+        run: echo ::set-output name=meme_version::$(cat new_version/new_version.txt)
+      
+      - name: Fetch tags
+        run: git fetch --prune --unshallow --tags --force
+
+      - name: Set variables
+        run: |
+          echo "VER=$(git describe --always | sed 's/^v//')" >> $GITHUB_ENV
+
+      - name: ${{ steps.vars.outputs.meme_version }}
+        uses: actions/setup-go@v3
+        with:
+          go-version: '^1.18'
+        env:
+          GOOS: ${{ matrix.targetos }}
+          GOARCH: ${{ matrix.arch }}
+
+      - name: Compile MeMe
+        run: |
+          GOARCH=${{ matrix.go-arch }} LEDGER_ENABLED=true make build
+          go mod download
+          make build
+#          cd cmd/memed
+#          go build .
+          
+      - uses: papeloto/action-zip@v1
+        with:
+          files: build/memed
+          dest: memed_${{ steps.vars.outputs.meme_version }}_${{ matrix.targetos }}_${{ matrix.arch }}.zip
+
+      - uses: actions/upload-artifact@v3.0.0
+        with:
+          name: memed_${{ steps.vars.outputs.meme_version }}_${{ matrix.targetos }}_${{ matrix.arch }}
+          path: memed_${{ steps.vars.outputs.meme_version }}_${{ matrix.targetos }}_${{ matrix.arch }}.zip
+          
+
+
+  meme-happy-release:
+    needs: build-release
+    runs-on: ubuntu-latest
+    name: MeMe Release on Github
+    steps:
+    
+#      - name: Download artifacts
+#        uses: actions/download-artifact@v2
+
+      - name: Download version number from bump-version-push-tag
+        uses: actions/download-artifact@v1
+        with:
+          name: new_version
+          
+      - name: Display structure of downloaded files
+        run: ls -aslR
+
+      - name: Create version number variable
+        id: vars
+        run: echo ::set-output name=meme_version::$(cat new_version/new_version.txt)
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.vars.outputs.meme_version }}
+          release_name: ${{ steps.vars.outputs.meme_version }}
+
+      - name: Upload release assets
+        uses: csexton/release-asset-action@v2
+        with:
+          pattern: "**/*.zip"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          release-url: ${{ steps.create_release.outputs.upload_url }}
