@@ -48,7 +48,7 @@ EOF
 source ~/.profile
 go version
 ```
-Output should be: `go version go1.17.5 linux/amd64`
+Output should be: `go version go1.17.8 linux/amd64`
 
 ### 3. Install meme from source
 Fetch and install the current Mainnet MeMe version.
