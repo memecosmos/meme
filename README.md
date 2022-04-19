@@ -1,5 +1,4 @@
 ## MeMe Chain
-![c11](https://raw.githubusercontent.com/MeMeCosmos/assetlists/main/logo/meme-banner.svg)
 
 
 ### How to Join MeMe Mainnet
@@ -76,7 +75,16 @@ wget -O $HOME/.memed/config/genesis.json https://github.com/memecosmos/mainnet/r
 
 ### Setup seeds
 Add these seeds here to the ~/.memed/config/config.toml file
-Make sure to add the provided seed and the community peers found in [`seed.txt`](https://github.com/MeMeCosmos/mainnet/raw/main/meme-1/seeds.txt) and [`peers.txt`](https://github.com/MeMeCosmos/mainnet/raw/main/meme-1/peers.txt) by filling the `seeds` and `persistent_peers` fields resp.
+Make sure to add the provided peers found in [`peers.txt`](https://github.com/MeMeCosmos/mainnet/raw/main/meme-1/peers.txt) by filling the  `persistent_peers` fields resp.
+
+Or type command
+```
+export PEERS="8db6d048af7c3cbbded64a13e107deac0ecd4e0b@157.230.58.197:26656,0bff1a09a775f3f48125e2608e5425d9916be9ec@157.230.58.200:26656,f51b8d710dd6a556694a5bd414c0e21753027b95@188.166.97.38:26656,7f8d0d370ea72608fa74d0b6698a7979ab510449@188.166.104.46:26656,bbce4f689582db49d7a93cb2baf94d95aa72f43b@137.184.13.23:26656,81ca4565e35d3c3f9cf6cf6d8d1fe7e6c4a2e490@207.148.2.119:26656,1e2a4e7c513d1ba267fe2e689d4dfe6d6105f644@155.138.255.208:26656"
+
+sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" ~/.memed/config/config.toml
+
+```
+
 
 ### Setup `min-gas-price` to `0.025umeme` in `app.toml`
 ```
@@ -116,6 +124,7 @@ memed tx staking create-validator \
 --commission-max-rate=0.20 \
 --commission-rate=0.05 \
 --gas-prices=0.025umeme \
+--min-self-delegation="1" \
 --from=<WALLET-NAME>
 ```
 
