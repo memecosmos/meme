@@ -103,32 +103,6 @@ memed keys add <WALLET-NAME> --recover
 ```
 
 
-## Create the validator
-
-Note : All validators set commission to at least 5%
-Create your validator using the following transaction:
-
-#### Create MeMe validator
-```bash:
-memed tx staking create-validator \
---pubkey=$(memed tendermint show-validator) \
---amount=1000000umeme \
---chain-id meme-1 \
---identity="<KEYBASE-ID>" \
---moniker="<MONIKER>" \
---details "<DESCRIPTION>" \
---website="<WEBSITE>" \
---security-contact="<EMAIL>" \
---website="" \
---commission-max-change-rate=0.01 \
---commission-max-rate=0.20 \
---commission-rate=0.05 \
---gas-prices=0.025umeme \
---min-self-delegation="1" \
---from=<WALLET-NAME>
-```
-
-
 ### Backup critical files
 Private key to use as a validator in the consensus protocol. File priv_validator_key.json in ~/.memed/config/
 
@@ -179,6 +153,31 @@ touch /var/log/memed.log
 ```bash:
 systemctl enable memed
 systemctl start memed
+```
+
+
+## Create the validator
+
+Note : All validators set commission to at least 5%
+Create your validator using the following transaction:
+
+#### Create MeMe validator
+```bash:
+memed tx staking create-validator \
+--pubkey=$(memed tendermint show-validator) \
+--amount=1000000umeme \
+--chain-id meme-1 \
+--identity="<KEYBASE-ID>" \
+--moniker="<MONIKER>" \
+--details "<DESCRIPTION>" \
+--website="<WEBSITE>" \
+--security-contact="<EMAIL>" \
+--commission-max-change-rate=0.01 \
+--commission-max-rate=0.20 \
+--commission-rate=0.05 \
+--gas-prices=0.025umeme \
+--min-self-delegation="1" \
+--from=<WALLET-NAME>
 ```
 
 
