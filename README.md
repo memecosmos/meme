@@ -12,7 +12,16 @@
 - Ubuntu 20.04
 
 
-## Setup Guidelines
+## Meme Validator Node Snapshot
+Thanks polkachu.com are providing a node snapshot to support fellow validators.
+
+https://polkachu.com/tendermint_snapshots/meme
+
+
+
+
+
+## Full chain setup guidelines
 
 
 #### 1. Prerequisites
