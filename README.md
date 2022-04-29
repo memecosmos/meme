@@ -12,12 +12,12 @@
 - Ubuntu 20.04
 
 
-## Meme Validator Node Snapshot
-Thanks polkachu.com are providing a node snapshot to support fellow validators.
+## Meme Validator Node Snapshot & State-Sync
+Thanks polkachu.com are providing a node Snapshot & State-Sync to support fellow validators.
 
 https://polkachu.com/tendermint_snapshots/meme
 
-
+https://polkachu.com/state_sync/meme
 
 
 
@@ -79,7 +79,7 @@ memed init $MONIKER_NAME --chain-id meme-1
 Please download the genesis file, with the chain-id and double check the hash of the genesis.
 
 ```bash:
-wget -O $HOME/.memed/config/genesis.json https://github.com/memecosmos/mainnet/raw/main/meme-1/genesis.json
+wget -O $HOME/.memed/config/genesis.json https://raw.githubusercontent.com/memecosmos/mainnet/main/meme-1/genesis.json
 echo "6e8e0e14fbdc2d978584a2af735c255f1d17bf6c50e8889aec83df33104851b8  genesis.json" | sha256sum -c
 ```
 
