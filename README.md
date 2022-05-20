@@ -15,12 +15,17 @@
 ## Meme Validator Node Snapshot & State-Sync
 Thanks polkachu.com and theamsolutions.info are providing a nodes State-Sync, snapshot and RPC to support fellow validators.
 
-Polkachu.com:
+### Polkachu.com:
+
 https://polkachu.com/tendermint_snapshots/meme
+
 https://polkachu.com/state_sync/meme
 
-Theamsolutions.info:
+### Theamsolutions.info:
+
 https://www.theamsolutions.info/meme-services
+
+
 
 
 
