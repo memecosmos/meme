@@ -226,8 +226,14 @@ memed tx slashing unjail --from <WALLET-NAME> --chain-id meme-1
 
 
 ## Local testnet node
-You can setup the MEME local testnet.
 
+### You can use Meme dapp developer installer.
+  
+  One-line installer: https://github.com/memecosmos/testnet/tree/main/local-testnet
+  
+  
+### Manual installation:
+  
 ```
 #customize the name of your key, the moniker, chain-id, keyring backend, and log level
 KEY="mykey"
