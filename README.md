@@ -1,6 +1,36 @@
 ## MEME Chain
 
 
+### prepare Meme network v2.0.0-beta 
+DO NOT USE ON MAINNET
+
+Mew version list:
+| Cosmos SDK   | wasmd | wasmvm       | cosmwasm-std | ibc      |
+| ------------ | ----- | ------------ | ------------ |--------- |
+| v0.45.4      | 0.27  | v1.0.0       | 1.0          | v3.0.0   |
+
+Upgrade version :
+
+```bash:
+
+go clean --cache
+make clean
+git checkout v2.0.0
+make install
+
+```
+
+Reset chain new command:
+
+```bash:
+
+memed tendermint unsafe-reset-all
+
+```
+
+
+
+
 ### How to Join MEME Mainnet
 
 
