@@ -1,7 +1,8 @@
 ## MEME Chain
 
 
-### prepare Meme network v2.0.0-beta2
+### Pre-release Meme network v2.0.1-beta.2
+
 DO NOT USE ON MAINNET
 
 New version list:
