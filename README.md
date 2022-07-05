@@ -1,15 +1,30 @@
 ## MEME Chain
 
 
-### MEME Network Version 2.0.0
+### prepare Meme network v2.0.0-beta2
+DO NOT USE ON MAINNET
 
-| wasmd | wasmvm       | cosmwasm-vm | cosmwasm-std | ibc      |
-| ----- | ------------ | ----------- | ------------ |--------- |
-| 0.27  | v1.0.0       |             | 1.0          | v3.0.0   |
+New version list:
+| Go     | Cosmos SDK   | wasmd | wasmvm       | cosmwasm-std | ibc      |
+| ------ | ------------ | ----- | ------------ | ------------ |--------- |
+| v1.8.3 | v0.45.6      | 0.27  | v1.0.0       | 1.0          | v3.0.0   |
+
+Upgrade version :
 
 ```bash:
 
 go clean --cache
+make clean
+git checkout v2.0.0-beta2
+make install
+
+```
+
+Reset chain new command:
+
+```bash:
+
+memed tendermint unsafe-reset-all
 
 ```
 
