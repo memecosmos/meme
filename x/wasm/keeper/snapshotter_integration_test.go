@@ -40,15 +40,15 @@ func TestSnapshotter(t *testing.T) {
 	for name, spec := range specs {
 		t.Run(name, func(t *testing.T) {
 			// setup source app
-			srcWasmApp, genesisAddr := newWasmExampleApp(t)
+			srcMEMEApp, genesisAddr := newWasmExampleApp(t)
 
 			// store wasm codes on chain
-			ctx := srcWasmApp.NewUncachedContext(false, tmproto.Header{
+			ctx := srcMEMEApp.NewUncachedContext(false, tmproto.Header{
 				ChainID: "foo",
-				Height:  srcWasmApp.LastBlockHeight() + 1,
+				Height:  srcMEMEApp.LastBlockHeight() + 1,
 				Time:    time.Now(),
 			})
-			wasmKeeper := app.NewTestSupport(t, srcWasmApp).WasmKeeper()
+			wasmKeeper := app.NewTestSupport(t, srcMEMEApp).WasmKeeper()
 			contractKeeper := keeper.NewDefaultPermissionKeeper(&wasmKeeper)
 
 			srcCodeIDToChecksum := make(map[uint64][]byte, len(spec.wasmFiles))
@@ -62,19 +62,19 @@ func TestSnapshotter(t *testing.T) {
 				srcCodeIDToChecksum[codeID] = hash[:]
 			}
 			// create snapshot
-			srcWasmApp.Commit()
-			snapshotHeight := uint64(srcWasmApp.LastBlockHeight())
-			snapshot, err := srcWasmApp.SnapshotManager().Create(snapshotHeight)
+			srcMEMEApp.Commit()
+			snapshotHeight := uint64(srcMEMEApp.LastBlockHeight())
+			snapshot, err := srcMEMEApp.SnapshotManager().Create(snapshotHeight)
 			require.NoError(t, err)
 			assert.NotNil(t, snapshot)
 
 			// when snapshot imported into dest app instance
-			destWasmApp := app.SetupWithEmptyStore(t)
-			require.NoError(t, destWasmApp.SnapshotManager().Restore(*snapshot))
+			destMEMEApp := app.SetupWithEmptyStore(t)
+			require.NoError(t, destMEMEApp.SnapshotManager().Restore(*snapshot))
 			for i := uint32(0); i < snapshot.Chunks; i++ {
-				chunkBz, err := srcWasmApp.SnapshotManager().LoadChunk(snapshot.Height, snapshot.Format, i)
+				chunkBz, err := srcMEMEApp.SnapshotManager().LoadChunk(snapshot.Height, snapshot.Format, i)
 				require.NoError(t, err)
-				end, err := destWasmApp.SnapshotManager().RestoreChunk(chunkBz)
+				end, err := destMEMEApp.SnapshotManager().RestoreChunk(chunkBz)
 				require.NoError(t, err)
 				if end {
 					break
@@ -82,10 +82,10 @@ func TestSnapshotter(t *testing.T) {
 			}
 
 			// then all wasm contracts are imported
-			wasmKeeper = app.NewTestSupport(t, destWasmApp).WasmKeeper()
-			ctx = destWasmApp.NewUncachedContext(false, tmproto.Header{
+			wasmKeeper = app.NewTestSupport(t, destMEMEApp).WasmKeeper()
+			ctx = destMEMEApp.NewUncachedContext(false, tmproto.Header{
 				ChainID: "foo",
-				Height:  destWasmApp.LastBlockHeight() + 1,
+				Height:  destMEMEApp.LastBlockHeight() + 1,
 				Time:    time.Now(),
 			})
 
@@ -103,7 +103,7 @@ func TestSnapshotter(t *testing.T) {
 	}
 }
 
-func newWasmExampleApp(t *testing.T) (*app.WasmApp, sdk.AccAddress) {
+func newWasmExampleApp(t *testing.T) (*app.MEMEApp, sdk.AccAddress) {
 	senderPrivKey := ed25519.GenPrivKey()
 	pubKey, err := cryptocodec.ToTmPubKeyInterface(senderPrivKey.PubKey())
 	require.NoError(t, err)
@@ -119,7 +119,7 @@ func newWasmExampleApp(t *testing.T) (*app.WasmApp, sdk.AccAddress) {
 	}
 	validator := tmtypes.NewValidator(pubKey, 1)
 	valSet := tmtypes.NewValidatorSet([]*tmtypes.Validator{validator})
-	wasmApp := app.SetupWithGenesisValSet(t, valSet, []authtypes.GenesisAccount{acc}, nil, balance)
+	memeApp := app.SetupWithGenesisValSet(t, valSet, []authtypes.GenesisAccount{acc}, nil, balance)
 
-	return wasmApp, senderAddr
+	return memeApp, senderAddr
 }
