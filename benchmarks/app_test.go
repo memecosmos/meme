@@ -26,21 +26,21 @@ import (
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 )
 
-func setup(db dbm.DB, withGenesis bool, invCheckPeriod uint, opts ...wasm.Option) (*app.WasmApp, app.GenesisState) {
+func setup(db dbm.DB, withGenesis bool, invCheckPeriod uint, opts ...wasm.Option) (*app.MEMEApp, app.GenesisState) {
 	encodingConfig := app.MakeEncodingConfig()
-	wasmApp := app.NewWasmApp(log.NewNopLogger(), db, nil, true, map[int64]bool{}, app.DefaultNodeHome, invCheckPeriod, encodingConfig, wasm.EnableAllProposals, app.EmptyBaseAppOptions{}, opts)
+	memeApp := app.NewMEMEApp(log.NewNopLogger(), db, nil, true, map[int64]bool{}, app.DefaultNodeHome, invCheckPeriod, encodingConfig, wasm.EnableAllProposals, app.EmptyBaseAppOptions{}, opts)
 	if withGenesis {
-		return wasmApp, app.NewDefaultGenesisState()
+		return memeApp, app.NewDefaultGenesisState()
 	}
-	return wasmApp, app.GenesisState{}
+	return memeApp, app.GenesisState{}
 }
 
-// SetupWithGenesisAccounts initializes a new WasmApp with the provided genesis
+// SetupWithGenesisAccounts initializes a new MEMEApp with the provided genesis
 // accounts and possible balances.
-func SetupWithGenesisAccounts(b testing.TB, db dbm.DB, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) *app.WasmApp {
-	wasmApp, genesisState := setup(db, true, 0)
+func SetupWithGenesisAccounts(b testing.TB, db dbm.DB, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) *app.MEMEApp {
+	memeApp, genesisState := setup(db, true, 0)
 	authGenesis := authtypes.NewGenesisState(authtypes.DefaultParams(), genAccs)
-	appCodec := app.NewTestSupport(b, wasmApp).AppCodec()
+	appCodec := app.NewTestSupport(b, memeApp).AppCodec()
 
 	genesisState[authtypes.ModuleName] = appCodec.MustMarshalJSON(authGenesis)
 
@@ -57,7 +57,7 @@ func SetupWithGenesisAccounts(b testing.TB, db dbm.DB, genAccs []authtypes.Genes
 		panic(err)
 	}
 
-	wasmApp.InitChain(
+	memeApp.InitChain(
 		abci.RequestInitChain{
 			Validators:      []abci.ValidatorUpdate{},
 			ConsensusParams: app.DefaultConsensusParams,
@@ -65,14 +65,14 @@ func SetupWithGenesisAccounts(b testing.TB, db dbm.DB, genAccs []authtypes.Genes
 		},
 	)
 
-	wasmApp.Commit()
-	wasmApp.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{Height: wasmApp.LastBlockHeight() + 1}})
+	memeApp.Commit()
+	memeApp.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{Height: memeApp.LastBlockHeight() + 1}})
 
-	return wasmApp
+	return memeApp
 }
 
 type AppInfo struct {
-	App          *app.WasmApp
+	App          *app.MEMEApp
 	MinterKey    *secp256k1.PrivKey
 	MinterAddr   sdk.AccAddress
 	ContractAddr string
@@ -82,7 +82,7 @@ type AppInfo struct {
 	TxConfig     client.TxConfig
 }
 
-func InitializeWasmApp(b testing.TB, db dbm.DB, numAccounts int) AppInfo {
+func InitializeMEMEApp(b testing.TB, db dbm.DB, numAccounts int) AppInfo {
 	// constants
 	minter := secp256k1.GenPrivKey()
 	addr := sdk.AccAddress(minter.PubKey().Address())
@@ -111,12 +111,12 @@ func InitializeWasmApp(b testing.TB, db dbm.DB, numAccounts int) AppInfo {
 			Coins:   sdk.NewCoins(sdk.NewInt64Coin(denom, 100000000000)),
 		}
 	}
-	wasmApp := SetupWithGenesisAccounts(b, db, genAccs, bals...)
+	memeApp := SetupWithGenesisAccounts(b, db, genAccs, bals...)
 
 	// add wasm contract
 	height := int64(2)
 	txGen := simappparams.MakeTestEncodingConfig().TxConfig
-	wasmApp.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{Height: height, Time: time.Now()}})
+	memeApp.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{Height: height, Time: time.Now()}})
 
 	// upload the code
 	cw20Code, err := ioutil.ReadFile("./testdata/cw20_base.wasm")
@@ -127,7 +127,7 @@ func InitializeWasmApp(b testing.TB, db dbm.DB, numAccounts int) AppInfo {
 	}
 	storeTx, err := helpers.GenTx(txGen, []sdk.Msg{&storeMsg}, nil, 55123123, "", []uint64{0}, []uint64{0}, minter)
 	require.NoError(b, err)
-	_, res, err := wasmApp.Deliver(txGen.TxEncoder(), storeTx)
+	_, res, err := memeApp.Deliver(txGen.TxEncoder(), storeTx)
 	require.NoError(b, err)
 	codeID := uint64(1)
 
@@ -161,7 +161,7 @@ func InitializeWasmApp(b testing.TB, db dbm.DB, numAccounts int) AppInfo {
 	gasWanted := 500000 + 10000*uint64(numAccounts)
 	initTx, err := helpers.GenTx(txGen, []sdk.Msg{&initMsg}, nil, gasWanted, "", []uint64{0}, []uint64{1}, minter)
 	require.NoError(b, err)
-	_, res, err = wasmApp.Deliver(txGen.TxEncoder(), initTx)
+	_, res, err = memeApp.Deliver(txGen.TxEncoder(), initTx)
 	require.NoError(b, err)
 
 	// TODO: parse contract address better
@@ -169,11 +169,11 @@ func InitializeWasmApp(b testing.TB, db dbm.DB, numAccounts int) AppInfo {
 	attr := evt.Attributes[0]
 	contractAddr := string(attr.Value)
 
-	wasmApp.EndBlock(abci.RequestEndBlock{Height: height})
-	wasmApp.Commit()
+	memeApp.EndBlock(abci.RequestEndBlock{Height: height})
+	memeApp.Commit()
 
 	return AppInfo{
-		App:          wasmApp,
+		App:          memeApp,
 		MinterKey:    minter,
 		MinterAddr:   addr,
 		ContractAddr: contractAddr,

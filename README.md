@@ -1,14 +1,13 @@
 ## MEME Chain
 
-
-### Pre-release Meme network v2.0.1-beta.2
+### prepare Meme network v2.0.2-beta3
 
 DO NOT USE ON MAINNET
 
 New version list:
 | Go     | Cosmos SDK   | wasmd | wasmvm       | cosmwasm-std | ibc      |
 | ------ | ------------ | ----- | ------------ | ------------ |--------- |
-| v1.8.3 | v0.45.6      | 0.27  | v1.0.0       | 1.0          | v3.0.0   |
+| v1.8.3 | v0.45.6      | 0.27  | v1.0.0       | 1.0          | v3.1.0   |
 
 
 Go version upgrade  :
@@ -24,6 +23,8 @@ echo 'export GO111MODULE=on' >> ~/.bashrc
 echo 'export PATH="$GOBIN:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 
+=======
+
 go version
 #go version go1.18.3 linux/amd64
 
@@ -34,7 +35,7 @@ Meme Network version upgrade  :
 
 go clean --cache
 make clean
-git checkout v2.0.1
+git checkout v2.0.2
 make install
 
 ```

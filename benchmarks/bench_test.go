@@ -92,7 +92,7 @@ func BenchmarkTxSending(b *testing.B) {
 		b.Run(name, func(b *testing.B) {
 			db := tc.db(b)
 			defer db.Close()
-			appInfo := InitializeWasmApp(b, db, tc.numAccounts)
+			appInfo := InitializeMEMEApp(b, db, tc.numAccounts)
 			txs := tc.txBuilder(b, &appInfo)
 
 			// number of Tx per block for the benchmarks

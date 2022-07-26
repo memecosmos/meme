@@ -558,12 +558,12 @@ func (chain TestChain) GetTestSupport() *wasmd.TestSupport {
 var _ ibctesting.TestingApp = TestingAppDecorator{}
 
 type TestingAppDecorator struct {
-	*wasmd.WasmApp
+	*wasmd.MEMEApp
 	t *testing.T
 }
 
-func NewTestingAppDecorator(t *testing.T, wasmApp *wasmd.WasmApp) *TestingAppDecorator {
-	return &TestingAppDecorator{WasmApp: wasmApp, t: t}
+func NewTestingAppDecorator(t *testing.T, memeApp *wasmd.MEMEApp) *TestingAppDecorator {
+	return &TestingAppDecorator{MEMEApp: memeApp, t: t}
 }
 
 func (a TestingAppDecorator) GetBaseApp() *baseapp.BaseApp {
@@ -587,5 +587,5 @@ func (a TestingAppDecorator) GetTxConfig() client.TxConfig {
 }
 
 func (a TestingAppDecorator) TestSupport() *wasmd.TestSupport {
-	return wasmd.NewTestSupport(a.t, a.WasmApp)
+	return wasmd.NewTestSupport(a.t, a.MEMEApp)
 }
