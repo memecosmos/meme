@@ -1,7 +1,7 @@
 ## MEME Chain
 
+### prepare Meme network v2.0.2
 
-### prepare Meme network v2.0.0-beta3
 DO NOT USE ON MAINNET
 
 New version list:
@@ -9,25 +9,42 @@ New version list:
 | ------ | ------------ | ----- | ------------ | ------------ |--------- |
 | v1.8.3 | v0.45.6      | 0.27  | v1.0.0       | 1.0          | v3.1.0   |
 
-Upgrade version :
 
+Go version upgrade  :
+```bash:
+rm -rf /usr/local/go 
+apt install git build-essential ufw curl jq snapd --yes
+snap install go --channel=1.8/stable --classic
+
+ 
+echo 'export GOPATH="$HOME/go"' >> ~/.bashrc
+echo 'export GOBIN="$GOPATH/bin"' >> ~/.bashrc
+echo 'export GO111MODULE=on' >> ~/.bashrc
+echo 'export PATH="$GOBIN:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
+
+go clean --cache
+make clean
+git checkout v2.0.2
+make install
+
+=======
+
+go version
+#go version go1.18.3 linux/amd64
+
+```
+
+Meme Network version upgrade  :
 ```bash:
 
 go clean --cache
 make clean
-git checkout v2.0.0-beta3
+git checkout v2.0.2
 make install
 
 ```
-
-Reset chain new command:
-
-```bash:
-
-memed tendermint unsafe-reset-all
-
-```
-
 
 
 ### How to Join MEME Mainnet

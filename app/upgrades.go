@@ -10,6 +10,7 @@ import (
 )
 
 // next upgrade name
+
 const upgradeName = "v2"
 
 // RegisterUpgradeHandlers returns upgrade handlers
