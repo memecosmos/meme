@@ -10,7 +10,8 @@ import (
 )
 
 // next upgrade name
-const upgradeName = "v1.2"
+
+const upgradeName = "v2"
 
 // RegisterUpgradeHandlers returns upgrade handlers
 func (app *MEMEApp) RegisterUpgradeHandlers(cfg module.Configurator) {

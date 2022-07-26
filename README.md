@@ -1,6 +1,6 @@
 ## MEME Chain
 
-### prepare Meme network v2.0.2-beta3
+### prepare Meme network v2.0.2
 
 DO NOT USE ON MAINNET
 
@@ -22,6 +22,12 @@ echo 'export GOBIN="$GOPATH/bin"' >> ~/.bashrc
 echo 'export GO111MODULE=on' >> ~/.bashrc
 echo 'export PATH="$GOBIN:$PATH"' >> ~/.bashrc
 source ~/.bashrc
+
+
+go clean --cache
+make clean
+git checkout v2.0.2
+make install
 
 =======
 
