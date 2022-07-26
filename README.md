@@ -1,9 +1,9 @@
 ## MEME Chain
 
 
-### Pre-release Meme network v2.0.1-beta.2
+### Pre-release Meme network v2.0.2
 DO NOT USE ON MAINNET
-https://github.com/memecosmos/meme/releases/tag/v2.0.1
+https://github.com/memecosmos/meme/releases/tag/v2.0.2
 
 
 
