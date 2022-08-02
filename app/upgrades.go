@@ -16,7 +16,7 @@ func equalTraces(dtA, dtB ibctransfertypes.DenomTrace) bool {
 	return dtA.BaseDenom == dtB.BaseDenom && dtA.Path == dtB.Path
 }
 
-func (app *WasmApp) RegisterUpgradeHandlers(cfg module.Configurator) {
+func (app *MEMEApp) RegisterUpgradeHandlers(cfg module.Configurator) {
 	app.upgradeKeeper.SetUpgradeHandler(upgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 
 //

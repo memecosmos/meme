@@ -217,7 +217,7 @@ func (ac appCreator) newApp(
 		wasmOpts = append(wasmOpts, wasmkeeper.WithVMCacheMetrics(prometheus.DefaultRegisterer))
 	}
 
-	return app.NewWasmApp(logger, db, traceStore, true, skipUpgradeHeights,
+	return app.NewMEMEApp(logger, db, traceStore, true, skipUpgradeHeights,
 		cast.ToString(appOpts.Get(flags.FlagHome)),
 		cast.ToUint(appOpts.Get(server.FlagInvCheckPeriod)),
 		ac.encCfg,
@@ -248,7 +248,7 @@ func (ac appCreator) appExport(
 	appOpts servertypes.AppOptions,
 ) (servertypes.ExportedApp, error) {
 
-	var wasmApp *app.WasmApp
+	var memeApp *app.MEMEApp
 	homePath, ok := appOpts.Get(flags.FlagHome).(string)
 	if !ok || homePath == "" {
 		return servertypes.ExportedApp{}, errors.New("application home is not set")
@@ -256,7 +256,7 @@ func (ac appCreator) appExport(
 
 	loadLatest := height == -1
 	var emptyWasmOpts []wasm.Option
-	wasmApp = app.NewWasmApp(
+	memeApp = app.NewMEMEApp(
 		logger,
 		db,
 		traceStore,
@@ -271,10 +271,10 @@ func (ac appCreator) appExport(
 	)
 
 	if height != -1 {
-		if err := wasmApp.LoadHeight(height); err != nil {
+		if err := memeApp.LoadHeight(height); err != nil {
 			return servertypes.ExportedApp{}, err
 		}
 	}
 
-	return wasmApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs)
+	return memeApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs)
 }
