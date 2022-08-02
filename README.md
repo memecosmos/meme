@@ -1,13 +1,13 @@
 ## MEME Chain
 
 
-### prepare Meme network v2.0.0-beta2
+### prepare Meme network v2.0.0-beta4
 DO NOT USE ON MAINNET
 
 New version list:
 | Go     | Cosmos SDK   | wasmd | wasmvm       | cosmwasm-std | ibc      |
 | ------ | ------------ | ----- | ------------ | ------------ |--------- |
-| v1.8.3 | v0.45.6      | 0.27  | v1.0.0       | 1.0          | v3.0.0   |
+| v1.8.3 | v0.45.6      | 0.28  | v1.0.0       | 1.0          | v3.1.0   |
 
 Upgrade version :
 
@@ -15,7 +15,7 @@ Upgrade version :
 
 go clean --cache
 make clean
-git checkout v2.0.0-beta2
+git checkout v2.0.0-beta4
 make install
 
 ```

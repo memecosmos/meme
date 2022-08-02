@@ -3,8 +3,8 @@ version: 2.1
 executors:
   golang:
     docker:
-      - image: circleci/golang:1.17
-    working_directory: /go/src/github.com/MeMeCosmos/meme
+      - image: circleci/golang:1.18
+    working_directory: /go/src/github.com/memecosmos/meme
 
 commands:
   make:
@@ -30,7 +30,6 @@ commands:
           command: |
             export BINDIR=/tmp/bin
             make << parameters.target >>
-
 jobs:
   setup-dependencies:
     executor: golang
@@ -62,7 +61,7 @@ jobs:
 
   lint:
     docker:
-      - image: golangci/golangci-lint:v1.43.0
+      - image: golangci/golangci-lint:v1.46.2
     steps:
       - checkout
       - run:
@@ -70,7 +69,6 @@ jobs:
           command: |
             golangci-lint run --version
             golangci-lint run --tests=false --timeout=5m0s
-
   test-cover:
     executor: golang
     parallelism: 4
@@ -115,6 +113,18 @@ jobs:
           command: |
             cd ./benchmarks
             go test -bench .
+  simulations:
+    executor: golang
+    parallelism: 1
+    resource_class: large
+    steps:
+      - checkout
+      - run:
+          name: Run simulations
+          command: |
+            make test-sim-multi-seed-short
+      - store_artifacts:
+          path: /tmp
 
   upload-coverage:
     executor: golang
@@ -126,7 +136,6 @@ jobs:
           name: gather
           command: |
             set -ex
-
             echo "--> Concatenating profiles:"
             ls /tmp/workspace/profiles/
             echo "mode: atomic" > coverage.txt
@@ -148,17 +157,16 @@ jobs:
           version: 20.10.11
       - run:
           name: Build Docker artifact
-          command: docker build --pull -t "cosmwasm/wasmd:${CIRCLE_SHA1}" .
+          command: docker build --pull -t "memecosmos/memed:${CIRCLE_SHA1}" .
       - run:
           name: Push application Docker image to docker hub
           command: |
             if [ "${CIRCLE_BRANCH}" = "master" ]; then
-              docker tag "cosmwasm/wasmd:${CIRCLE_SHA1}" cosmwasm/wasmd:latest
+              docker tag "memecosmos/memed:${CIRCLE_SHA1}" memecosmos/memed:latest
               docker login --password-stdin -u "$DOCKER_USER" \<<<"$DOCKER_PASS"
-              docker push cosmwasm/wasmd:latest
+              docker push memecosmos/memed:latest
               docker logout
             fi
-
   docker-tagged:
     executor: golang
     steps:
@@ -170,14 +178,13 @@ jobs:
           version: 20.10.11
       - run:
           name: Build Docker artifact
-          command: docker build --pull -t "cosmwasm/wasmd:${CIRCLE_TAG}" .
+          command: docker build --pull -t "memecosmos/memed:${CIRCLE_TAG}" .
       - run:
           name: Push application Docker image to docker hub
           command: |
             docker login --password-stdin -u "$DOCKER_USER" \<<<"$DOCKER_PASS"
-            docker push "cosmwasm/wasmd:${CIRCLE_TAG}"
+            docker push "memecosmos/memed:${CIRCLE_TAG}"
             docker logout
-
 workflows:
   version: 2
   test-suite:
@@ -218,3 +225,7 @@ workflows:
       - benchmark:
           requires:
             - test-cover
+      - simulations:
+          requires:
+            - setup-dependencies
+

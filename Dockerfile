@@ -1,6 +1,6 @@
 # docker build . -t MeMeCosmos/meme:latest
 # docker run --rm -it MeMeCosmos/meme:latest /bin/sh
-FROM golang:1.18.3-alpine3.15 AS go-builder
+FROM golang:1.18.5-alpine3.15 AS go-builder
 ARG arch=x86_64
 
 # this comes from standard alpine nightly file

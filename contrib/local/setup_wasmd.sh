@@ -10,7 +10,7 @@ MONIKER=${MONIKER:-node001}
 wasmd init --chain-id "$CHAIN_ID" "$MONIKER"
 # staking/governance token is hardcoded in config, change this
 ## OSX requires: -i.
-sed -i. "s/\"stake\"/\"$STAKE\"/" "$HOME"/.memed/config/genesis.json
+sed -i. "s/\"stake\"/\"$STAKE\"/" "$HOME"/.wasmd/config/genesis.json
 if ! wasmd keys show validator; then
   (
     echo "$PASSWORD"
