@@ -225,7 +225,7 @@ var (
 		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
-		icatypes.ModuleName: 		nil,
+		icatypes.ModuleName:		nil,
 		wasm.ModuleName:                {authtypes.Burner},
 	}
 )

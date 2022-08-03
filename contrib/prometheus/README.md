@@ -1,5 +1,5 @@
 # Setup
-Enable prometheus metrics in wasmd:
+Enable prometheus metrics in memed:
 
 * Edit `$HOME/config/app.toml`
 ```toml
@@ -37,7 +37,7 @@ Note the `format` parameter in the request for the endpoint:
 # Local testing
 ## Run Prometheus
 ```sh
-# port 9090 is used by wasmd already
+# port 9090 is used by memed already
 docker run -it -v $(pwd)/contrib/prometheus:/prometheus  -p9091:9090  prom/prometheus --config.file=/prometheus/prometheus.yaml
 ```
 * Open [console](http://localhost:9091) and find `wasm_`service metrics

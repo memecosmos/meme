@@ -8,7 +8,7 @@ For manual testing. Works on my box(*) ...
 make install
 cd contrib/local
 rm -rf /tmp/trash
-HOME=/tmp/trash bash setup_wasmd.sh
+HOME=/tmp/trash bash setup_memed.sh
 HOME=/tmp/trash bash start_node.sh
 ```
 
