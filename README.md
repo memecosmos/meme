@@ -1,13 +1,34 @@
 ## MEME Chain
 
 
-### prepare Meme network v2.0.0-beta4
+### prepare Meme network v2.0.4
 DO NOT USE ON MAINNET
 
 New version list:
 | Go     | Cosmos SDK   | wasmd | wasmvm       | cosmwasm-std | ibc      |
 | ------ | ------------ | ----- | ------------ | ------------ |--------- |
-| v1.8.3 | v0.45.6      | 0.28  | v1.0.0       | 1.0          | v3.0.0   |
+| v1.8.5 | v0.45.6      | 0.28  | v1.0.0       | 1.0          | v3.0.0   |
+
+
+Upgrade Go version:
+
+```bash:
+
+wget https://golang.org/dl/go1.18.5.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.18.5.linux-amd64.tar.gz
+
+
+cat <<EOF >> ~/.profile
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export GO111MODULE=on
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+EOF
+source ~/.profile
+go version
+
+```
+
 
 Upgrade version :
 
@@ -15,7 +36,7 @@ Upgrade version :
 
 go clean --cache
 make clean
-git checkout v2.0.0-beta4
+git checkout v2.0.4
 make install
 
 ```
@@ -37,7 +58,7 @@ memed tendermint unsafe-reset-all
 
 - 4 core CPU
 - Memory: 4GB
-- Disk: 100GB 
+- Disk: 200GB 
 - Ubuntu 20.04
 
 
