@@ -1,7 +1,7 @@
 ## MEME Chain
 
 
-### prepare Meme network v2.0.4
+### prepare Meme network v2.0.5
 DO NOT USE ON MAINNET
 
 New version list:
@@ -36,7 +36,7 @@ Upgrade version :
 
 go clean --cache
 make clean
-git checkout v2.0.4
+git checkout v2.0.5
 make install
 
 ```
