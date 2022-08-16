@@ -1,9 +1,12 @@
 ## MEME Chain
 
 
-### Pre-release Meme network v2.0.4
+### Pre-release Meme network v2.0.5
 DO NOT USE ON MAINNET
-https://github.com/memecosmos/meme/releases/tag/v2.0.4
+https://github.com/memecosmos/meme/releases/tag/v2.0.5
+
+Cosmovisor:
+https://github.com/memecosmos/testnet/blob/main/upgrade-memed.md
 
 New version list:
 | Go     | Cosmos SDK   | wasmd | wasmvm       | cosmwasm-std | ibc      |
