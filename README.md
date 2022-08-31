@@ -2,11 +2,12 @@
 
 
 ### Pre-release Meme network v2.0.5
-DO NOT USE ON MAINNET
+* DO NOT USE ON MAINNET
 https://github.com/memecosmos/meme/releases/tag/v2.0.5
 
-Cosmovisor:
+* Software upgrade to v2.0.5 testnet and issue we encountered and solutions:
 https://github.com/memecosmos/testnet/blob/main/upgrade-memed.md
+
 
 New version list:
 | Go     | Cosmos SDK   | wasmd | wasmvm       | cosmwasm-std | ibc      |
