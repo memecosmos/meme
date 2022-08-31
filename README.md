@@ -6,7 +6,7 @@
 https://github.com/memecosmos/meme/releases/tag/v2.0.5
 
 * Software upgrade to v2.0.5 testnet and issue we encountered and solutions:
-https://github.com/memecosmos/testnet/blob/main/upgrade-memed.md
+https://github.com/memecosmos/testnet/blob/main/upgrade-memed-v1.0.0-v2.0.5.md
 
 
 New version list:
