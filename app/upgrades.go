@@ -22,7 +22,10 @@ func equalTraces(dtA, dtB ibctransfertypes.DenomTrace) bool {
 
 func (app *MEMEApp) RegisterUpgradeHandlers(cfg module.Configurator) {
 	app.upgradeKeeper.SetUpgradeHandler(upgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-
+////
+	vm[icatypes.ModuleName] = app.mm.Modules[icatypes.ModuleName].ConsensusVersion()
+////
+		
 //
 	var newTraces []ibctransfertypes.DenomTrace
 		app.transferKeeper.IterateDenomTraces(ctx,
@@ -37,6 +40,16 @@ func (app *MEMEApp) RegisterUpgradeHandlers(cfg module.Configurator) {
 			app.transferKeeper.SetDenomTrace(ctx, nt)
 		}
 //
+		
+////
+	// initialize ICS27 module
+	icamodule, correctTypecast := app.mm.Modules[icatypes.ModuleName].(ica.AppModule)
+	if !correctTypecast {
+		panic("mm.Modules[icatypes.ModuleName] is not of type ica.AppModule")
+	}
+	icamodule.InitModule(ctx, controllerParams, hostParams)
+////
+		
 		return app.mm.RunMigrations(ctx, cfg, vm)
 
 	})
