@@ -8,9 +8,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	ibctransfertypes "github.com/cosmos/ibc-go/v3/modules/apps/transfer/types"
+	icacontrollertypes "github.com/cosmos/ibc-go/v3/modules/apps/27-interchain-accounts/controller/types"
+	icahosttypes "github.com/cosmos/ibc-go/v3/modules/apps/27-interchain-accounts/host/types"
+	
+	intertxtypes "github.com/cosmos/interchain-accounts/x/inter-tx/types"
 )
 
-const upgradeName = "v2.0.6"
+const upgradeName = "v2.0.7"
 
 func equalTraces(dtA, dtB ibctransfertypes.DenomTrace) bool {
 	return dtA.BaseDenom == dtB.BaseDenom && dtA.Path == dtB.Path
@@ -44,10 +48,7 @@ func (app *MEMEApp) RegisterUpgradeHandlers(cfg module.Configurator) {
 
 	if upgradeInfo.Name == upgradeName && !app.upgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		storeUpgrades := store.StoreUpgrades{
-			Deleted: []string{
-			"supply",
-			},
-			Added: []string{},
+			Added: []string{icacontrollertypes.StoreKey, icahosttypes.StoreKey, intertxtypes.StoreKey},
 		}
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 	}
