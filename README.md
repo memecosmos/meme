@@ -36,7 +36,7 @@ Upgrade version :
 
 go clean --cache
 make clean
-git checkout v2.0.5
+git checkout v2.0.6
 make install
 
 ```
@@ -45,7 +45,7 @@ Reset chain new command:
 
 ```bash:
 
-memed tendermint unsafe-reset-all
+memed tendermint unsafe-reset-all  --home /root/.memed
 
 ```
 
