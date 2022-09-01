@@ -1,7 +1,7 @@
 ## MEME Chain
 
 
-### prepare Meme network v2.0.5
+### prepare Meme network v2.0.6
 DO NOT USE ON MAINNET
 
 New version list:
