@@ -1,20 +1,21 @@
 ## MEME Chain
 
 
-### Pre-release Meme network v2.0.5
+### prepare Meme network v2.0.8
 * DO NOT USE ON MAINNET
-https://github.com/memecosmos/meme/releases/tag/v2.0.5
+https://github.com/memecosmos/meme/releases/tag/v2.0.8
+
+New version list:
+| Go     | Cosmos SDK   | wasmd | wasmvm       | cosmwasm-std | ibc      | 
+| ------ | ------------ | ----- | ------------ | ------------ |--------- |
+| v1.8.5 | v0.45.6      | 0.28  | v1.0.0       | 1.0          | v3.0.0   |
+
+Support Interchain account, Export and StoreKey bug fix.
 
 * Software upgrade to v2.0.5 testnet and issue we encountered and solutions:
 https://github.com/memecosmos/testnet/blob/main/upgrade-memed-v1.0.0-v2.0.5.md
 
-
-New version list:
-| Go     | Cosmos SDK   | wasmd | wasmvm       | cosmwasm-std | ibc      |
-| ------ | ------------ | ----- | ------------ | ------------ |--------- |
-| v1.8.5 | v0.45.6      | 0.28  | v1.0.0       | 1.0          | v3.0.0   |
-
-
+---
 
 ### How to Join MEME Mainnet
 
