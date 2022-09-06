@@ -783,7 +783,7 @@ func NewMEMEApp(
 		panic(err)
 	}
 
-	if upgradeInfo.Name == "v2.0.7" && !app.upgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+	if upgradeInfo.Name == "v2.0.8" && !app.upgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		storeUpgrades := store.StoreUpgrades{
 			Added: []string{icacontrollertypes.StoreKey, icahosttypes.StoreKey, intertxtypes.StoreKey},
 		}
@@ -934,7 +934,7 @@ func equalTraces(dtA, dtB ibctransfertypes.DenomTrace) bool {
 
 
 func (app *MEMEApp) RegisterUpgradeHandlers(cfg module.Configurator) {
-    app.upgradeKeeper.SetUpgradeHandler("v2.0.7", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
+    app.upgradeKeeper.SetUpgradeHandler("v2.0.8", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		vm[icatypes.ModuleName] = app.mm.Modules[icatypes.ModuleName].ConsensusVersion()
 
 		// create ICS27

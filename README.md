@@ -1,13 +1,16 @@
 ## MEME Chain
 
 
-### prepare Meme network v2.0.7
+### prepare Meme network v2.0.8
 DO NOT USE ON MAINNET
 
 New version list:
-| Go     | Cosmos SDK   | wasmd | wasmvm       | cosmwasm-std | ibc      |
+| Go     | Cosmos SDK   | wasmd | wasmvm       | cosmwasm-std | ibc      | 
 | ------ | ------------ | ----- | ------------ | ------------ |--------- |
 | v1.8.5 | v0.45.6      | 0.28  | v1.0.0       | 1.0          | v3.0.0   |
+
+Support Interchain account, Export and StoreKey bug fix.
+
 
 
 Upgrade Go version:
