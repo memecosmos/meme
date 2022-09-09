@@ -1,24 +1,35 @@
 1. Stop the node
+
 sudo systemctl stop memed
 
 2. Backup
+
 cp -r $HOME/.memed $HOME/.memed.bak
 
 3. Purge previous chain state and addrbook.json
+
 memed tendermint unsafe-reset-all --home $HOME/.memed
 
 4. Purge current peers from config.toml
+
 sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"\"/" ~/.meme/config/config.toml
 
 5. Add peers to config.toml
+
 PEERS="cfd6bbf0f73fc6bebe77186fe074eaee313b9e69@143.198.102.36:26656,964a2d95dc93d6493c51ecd80ed3acc444839b9e@45.76.177.106:26656,decd5a2f00260c65c43b531cb9b0b8e542419f4c@134.122.18.140:26656"
+
 sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" ~/.memed/config/config.toml`
 
 6 Download and install the new binary
+
 #Install memed v2.0.8
+
 git clone https://github.com/memecosmos/meme.git
+
 cd meme
+
 git checkout v2.0.8
+
 make install
 
 To confirm the correct binary is installed, do:
@@ -32,6 +43,7 @@ build_tags: netgo,ledger
 go: go version go1.18.5 linux/amd64
 
 7. [OPTIONAL] If you use cosmovisor
+
 You will need to re-setup cosmovisor with the new genesis.
 
 rm $DAEMON_HOME/cosmovisor/genesis/bin/memed
@@ -44,12 +56,12 @@ Check memed has copied to the new location.
 
 $DAEMON_HOME/cosmovisor/genesis/bin/memed version
 
-# returns
+returns
 v2.0.8
 
 tree $DAEMON_HOME/cosmovisor
 
-# returns
+returns
 /root/.memed/cosmovisor
 ├── genesis
 │   └── bin
@@ -58,6 +70,7 @@ tree $DAEMON_HOME/cosmovisor
 
 
 8. Download the  genesis
+
 rm ~/.memed/config/genesis.json
 wget 
 mv genesis.json $HOME/.memed/config/genesis.json
@@ -67,18 +80,23 @@ mv genesis.json $HOME/.memed/config/genesis.json
 
 jq -S -c -M '' ~/.memed/config/genesis.json | sha256sum
 
-# this will return
-# 8bf42fda1da6ce019ad8c8fbb198ec2237f25f8b18ec9d088c9ed321ab71d266
+this will return
+8bf42fda1da6ce019ad8c8fbb198ec2237f25f8b18ec9d088c9ed321ab71d266
 
 10. Be paranoid
-#This isn't strictly necessary - you can skip it, just double-check.
+
+This isn't strictly necessary - you can skip it, just double-check.
+
 memed tendermint unsafe-reset-all --home $HOME/.memed
 
 11. Restore priv_validator_key.json and priv_validator_state.json
+
 cp ~/.memed.bak/config/priv_validator_key.json ~/.memed/config/priv_validator_key.json
 
 12. Start the node
+
 sudo systemctl restart memed
 
 13. Confirm the process running
+
 sudo journalctl -fu memed
