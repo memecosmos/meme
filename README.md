@@ -12,8 +12,13 @@ New version list:
 
 Support Interchain account, Export and StoreKey bug fix.
 
+
+* Software upgrade to v2.0.8 testnet and chain-id renew to meme-testnet-2 for fixed v2.0.5 issue:
+[meme-testnet-2](https://github.com/memecosmos/testnet/tree/main/meme-testnet-2)
+
 * Software upgrade to v2.0.5 testnet and issue we encountered and solutions:
-https://github.com/memecosmos/testnet/blob/main/upgrade-memed-v1.0.0-v2.0.5.md
+[upgrade-memed-v1.0.0-v2.0.5.md](https://github.com/memecosmos/testnet/blob/main/upgrade-memed-v1.0.0-v2.0.5.md)
+
 
 ---
 
