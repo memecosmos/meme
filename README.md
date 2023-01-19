@@ -7,7 +7,7 @@ DO NOT USE ON MAINNET
 New version list:
 | Go     | Cosmos SDK   | wasmd | wasmvm       | cosmwasm-std | ibc      | 
 | ------ | ------------ | ----- | ------------ | ------------ |--------- |
-| v1.8.5 | v0.45.6      | 0.28  | v1.0.0       | 1.0          | v3.0.0   |
+| v1.8.5 | v0.45.10     | 0.28  | v1.0.0       | 1.0          | v3.3.1   |
 
 Support Interchain account, Export and StoreKey bug fix.
 
