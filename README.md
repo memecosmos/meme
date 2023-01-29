@@ -87,17 +87,16 @@ go version
 ```
 Output should be: `go version go1.17.8 linux/amd64`
 
-### 3. Install meme from source
-Fetch and install the current Mainnet MEME version.
+### 3. Download memed binary
 
-
-```bash:
-git clone https://github.com/MEMECosmos/meme
-cd meme
-git checkout main
-make install
 ```
-Note: there is no tag to build off of, just use main for now
+wget https://fix.meme.sx/memed-v1.0.0-fix.tar.gz
+tar -xvzf memed-v1.0.0-fix.tar.gz
+./memed version --long
+#It should be -> commit: 3d3bb097154af6a8eaa83f43e8e47dc91dcdb8b2
+sha256sum memed
+#It should be -> 7456e62eb8ba79391d6e0719dc27d65e383d05493586230046a9340b03f16db5  memed
+```
 
 ### Init chain
 ```bash:
