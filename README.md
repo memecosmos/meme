@@ -34,7 +34,7 @@ Support Interchain account, Export and StoreKey bug fix.
 
 
 ## Meme Validator Node Snapshot & State-Sync
-Thanks polkachu.com and theamsolutions.info are providing a nodes State-Sync, snapshot and RPC to support fellow validators.
+Thanks polkachu.com and nodersteam.com are providing a nodes State-Sync, snapshot and RPC to support fellow validators.
 
 ### Polkachu.com:
 
@@ -42,9 +42,9 @@ https://polkachu.com/tendermint_snapshots/meme
 
 https://polkachu.com/state_sync/meme
 
-### Theamsolutions.info:
+### Nodersteam.com:
 
-https://www.theamsolutions.info/meme-services
+https://nodeservice.nodersteam.com/title/mainnet/meme
 
 
 
@@ -118,7 +118,7 @@ Make sure to add the provided peers found in [`peers.txt`](https://github.com/Me
 
 Or type command
 ```
-export PEERS="450b7b3515fc9b8112a0dee947e436dc52b0c600@173.212.220.98:26656,bce1338cf47af1bb0ee48da51c5e0abf20549eed@38.242.238.171:26651,42567151b58bf39e15d257fddd12337ae4f21811@95.211.138.136:26656,bfd5eca5791000969f34dd4c337b1b59acde5e5b@51.89.166.148:26656,fc21b0c26b6840915f6fe2daf56565e1c30e0956@162.55.245.104:26656,7f8d0d370ea72608fa74d0b6698a7979ab510449@188.166.104.46:26656,a054e25252511a3d56906156e23daa415912e29a@116.203.252.253:26656,739f5fa0fd3c1acf486e5a98262b3a84e17c9fe5@49.12.187.54:26656,9f9d13e3d8fe67479d7ce1f868a9ec7c10a807b7@46.4.107.112:47656,c0dca847f71b25214636cfad57513080a6348c6d@38.146.3.118:26656,bbce4f689582db49d7a93cb2baf94d95aa72f43b@137.184.13.23:26656,c57fce65a0e6be87763ae38d607b817b3acde620@173.212.215.104:26656,2d7ee0f6ed1c38e5c0a62ee8848f3dc773edc3d0@68.151.33.193:26666,094d04df417c1b80cf1fce49958d15c69a00d557@38.242.206.198:36656,c81f07bb55b261adc7ab15dc5a6f9b8f48cb0e6e@144.76.90.249:26686,95cd092bda4b0239ca07536503d4d3ada12d8a64@195.201.16.157:26656,d06c06f03c94d1ee61e02f2a0a521a67f118efbf@64.227.40.96:26656,f172dd9fe675bbd07148dabbafb211f0ea8fa89a@46.138.245.164:24656,d4f912e4c878a0db02969888a02fd6a9f0512f01@74.96.207.62:26613,a215c671810c3056c42bc264247cd1ad6cf23b3f@94.23.23.189:30511,c32431a64fd615f72d68da339235e6babd53be54@85.10.216.154:26656,4a041dc92597526cb5370100b6773bb9b51cec11@185.239.208.71:26656,19e3f3be737e7c305e4518acdd22ee08fc44263d@159.89.182.27:26656,1e2a4e7c513d1ba267fe2e689d4dfe6d6105f644@155.138.255.208:26656,a9959fef554ee407f23dffbcd4c0711e02a07d18@207.246.107.204:26656"
+export PEERS="450b7b3515fc9b8112a0dee947e436dc52b0c600@173.212.220.98:26656,bce1338cf47af1bb0ee48da51c5e0abf20549eed@38.242.238.171:26651,7f8d0d370ea72608fa74d0b6698a7979ab510449@188.166.104.46:26656,bbce4f689582db49d7a93cb2baf94d95aa72f43b@137.184.13.23:26656,c57fce65a0e6be87763ae38d607b817b3acde620@173.212.215.104:26656,c81f07bb55b261adc7ab15dc5a6f9b8f48cb0e6e@144.76.90.249:26686,d06c06f03c94d1ee61e02f2a0a521a67f118efbf@64.227.40.96:26656,4a041dc92597526cb5370100b6773bb9b51cec11@185.239.208.71:26656,19e3f3be737e7c305e4518acdd22ee08fc44263d@159.89.182.27:26656,90570d614d01c617953645faa4b955616fbb8d64@205.209.120.105:26656"
 
 sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" ~/.memed/config/config.toml
 
@@ -300,5 +300,5 @@ memed start
 
 - [Cosmos SDK documentation](https://docs.cosmos.network)
 - [Cosmos SDK Tutorials](https://tutorials.cosmos.network)
-- [Discord](https://discord.gg/cosmosnetwork)
+- [Discord](https://discord.com/invite/pAXqq5dVD9)
 
