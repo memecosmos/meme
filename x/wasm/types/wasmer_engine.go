@@ -5,9 +5,11 @@ import (
 	wasmvmtypes "github.com/CosmWasm/wasmvm/types"
 )
 
+// DefaultMaxQueryStackSize maximum size of the stack of contract instances doing queries
+const DefaultMaxQueryStackSize uint32 = 10
+
 // WasmerEngine defines the WASM contract runtime engine.
 type WasmerEngine interface {
-
 	// Create will compile the wasm code, and store the resulting pre-compile
 	// as well as the original code. Both can be referenced later via CodeID
 	// This must be done one time for given code, after which it can be
@@ -149,7 +151,7 @@ type WasmerEngine interface {
 		gasMeter wasmvm.GasMeter,
 		gasLimit uint64,
 		deserCost wasmvmtypes.UFraction,
-	) (uint64, error)
+	) (*wasmvmtypes.IBC3ChannelOpenResponse, uint64, error)
 
 	// IBCChannelConnect is available on IBC-enabled contracts and is a hook to call into
 	// during the handshake pahse

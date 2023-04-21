@@ -4,8 +4,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
-	channelkeeper "github.com/cosmos/ibc-go/v2/modules/core/04-channel/keeper"
-	ibcante "github.com/cosmos/ibc-go/v2/modules/core/ante"
+	ibcante "github.com/cosmos/ibc-go/v3/modules/core/ante"
+	"github.com/cosmos/ibc-go/v3/modules/core/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	wasmkeeper "github.com/CosmWasm/wasmd/x/wasm/keeper"
 	wasmTypes "github.com/CosmWasm/wasmd/x/wasm/types"
@@ -16,7 +16,7 @@ import (
 type HandlerOptions struct {
 	ante.HandlerOptions
 
-	IBCChannelkeeper  channelkeeper.Keeper
+	IBCKeeper *keeper.Keeper
 	WasmConfig        *wasmTypes.WasmConfig
 	TXCounterStoreKey sdk.StoreKey
 }
@@ -39,22 +39,22 @@ func (MinCommissionDecorator) AnteHandle(
 	for _, m := range msgs {
 		switch msg := m.(type) {
 		case *stakingtypes.MsgCreateValidator:
- 			c := msg.Commission
- 			if c.Rate.LT(minCommissionRate) {
- 				return ctx, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "commission can't be lower than 5%")
- 			}
- 		case *stakingtypes.MsgEditValidator:
- 			if msg.CommissionRate == nil {
- 				continue
- 			}
- 			if msg.CommissionRate.LT(minCommissionRate) {
- 				return ctx, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "commission can't be lower than 5%")
- 			}
- 		default:
- 			continue
- 		}
- 	}
- 	return next(ctx, tx, simulate)
+			c := msg.Commission
+			if c.Rate.LT(minCommissionRate) {
+				return ctx, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "commission can't be lower than 5%")
+			}
+		case *stakingtypes.MsgEditValidator:
+			if msg.CommissionRate == nil {
+				continue
+			}
+			if msg.CommissionRate.LT(minCommissionRate) {
+				return ctx, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "commission can't be lower than 5%")
+			}
+		default:
+			continue
+		}
+	}
+	return next(ctx, tx, simulate)
 }
 // MEME commission END
 
@@ -76,7 +76,7 @@ func NewAnteHandler(options HandlerOptions) (sdk.AnteHandler, error) {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrLogic, "tx counter key is required for ante builder")
 	}
 
-	var sigGasConsumer = options.SigGasConsumer
+	sigGasConsumer := options.SigGasConsumer
 	if sigGasConsumer == nil {
 		sigGasConsumer = ante.DefaultSigVerificationGasConsumer
 	}
@@ -99,7 +99,7 @@ func NewAnteHandler(options HandlerOptions) (sdk.AnteHandler, error) {
 		ante.NewSigGasConsumeDecorator(options.AccountKeeper, sigGasConsumer),
 		ante.NewSigVerificationDecorator(options.AccountKeeper, options.SignModeHandler),
 		ante.NewIncrementSequenceDecorator(options.AccountKeeper),
-		ibcante.NewAnteDecorator(options.IBCChannelkeeper),
+		ibcante.NewAnteDecorator(options.IBCKeeper),
 	}
 
 	return sdk.ChainAnteDecorators(anteDecorators...), nil

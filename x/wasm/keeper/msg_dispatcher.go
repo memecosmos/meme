@@ -1,7 +1,9 @@
 package keeper
 
 import (
+	"bytes"
 	"fmt"
+	"sort"
 
 	wasmvmtypes "github.com/CosmWasm/wasmvm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -107,6 +109,16 @@ func (d MessageDispatcher) DispatchSubmessages(ctx sdk.Context, contractAddr sdk
 			commit()
 			filteredEvents = filterEvents(append(em.Events(), events...))
 			ctx.EventManager().EmitEvents(filteredEvents)
+			if msg.Msg.Wasm == nil {
+				filteredEvents = []sdk.Event{}
+			} else {
+				for _, e := range filteredEvents {
+					attributes := e.Attributes
+					sort.SliceStable(attributes, func(i, j int) bool {
+						return bytes.Compare(attributes[i].Key, attributes[j].Key) < 0
+					})
+				}
+			}
 		} // on failure, revert state from sandbox, and ignore events (just skip doing the above)
 
 		// we only callback if requested. Short-circuit here the cases we don't want to
@@ -117,8 +129,8 @@ func (d MessageDispatcher) DispatchSubmessages(ctx sdk.Context, contractAddr sdk
 			continue
 		}
 
-		// otherwise, we create a SubcallResult and pass it into the calling contract
-		var result wasmvmtypes.SubcallResult
+		// otherwise, we create a SubMsgResult and pass it into the calling contract
+		var result wasmvmtypes.SubMsgResult
 		if err == nil {
 			// just take the first one for now if there are multiple sub-sdk messages
 			// and safely return nothing if no data
@@ -126,8 +138,8 @@ func (d MessageDispatcher) DispatchSubmessages(ctx sdk.Context, contractAddr sdk
 			if len(data) > 0 {
 				responseData = data[0]
 			}
-			result = wasmvmtypes.SubcallResult{
-				Ok: &wasmvmtypes.SubcallResponse{
+			result = wasmvmtypes.SubMsgResult{
+				Ok: &wasmvmtypes.SubMsgResponse{
 					Events: sdkEventsToWasmVMEvents(filteredEvents),
 					Data:   responseData,
 				},
@@ -135,7 +147,7 @@ func (d MessageDispatcher) DispatchSubmessages(ctx sdk.Context, contractAddr sdk
 		} else {
 			// Issue #759 - we don't return error string for worries of non-determinism
 			moduleLogger(ctx).Info("Redacting submessage error", "cause", err)
-			result = wasmvmtypes.SubcallResult{
+			result = wasmvmtypes.SubMsgResult{
 				Err: redactError(err).Error(),
 			}
 		}
