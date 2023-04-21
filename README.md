@@ -1,24 +1,23 @@
 ## MEME Chain
 
 
-### prepare Meme network v2.0.8
+### prepare Meme network v2.0.9
 DO NOT USE ON MAINNET
 
 New version list:
 | Go     | Cosmos SDK   | wasmd | wasmvm       | cosmwasm-std | ibc      | 
 | ------ | ------------ | ----- | ------------ | ------------ |--------- |
-| v1.8.5 | v0.45.6      | 0.28  | v1.0.0       | 1.0          | v3.0.0   |
+| v1.9.4 | v0.45.12     | 0.28  | v1.0.1       | 1.0          | v3.3.1   |
 
-Support Interchain account, Export and StoreKey bug fix.
-
+Pump Up Cosmos SDK Version and Apply wasmvm patch
 
 
 Upgrade Go version:
 
 ```bash:
 
-wget https://golang.org/dl/go1.18.5.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go1.18.5.linux-amd64.tar.gz
+wget https://golang.org/dl/go1.19.4.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.19.4.linux-amd64.tar.gz
 
 
 cat <<EOF >> ~/.profile
@@ -39,7 +38,7 @@ Upgrade version :
 
 go clean --cache
 make clean
-git checkout v2.0.7
+git checkout v2.0.9
 make install
 
 ```
@@ -100,7 +99,7 @@ Follow the instructions [here](https://golang.org/doc/install) to install Go.
 Alternatively, for Ubuntu LTS, you can do:
 ```bash:
 
-wget -q -O - https://git.io/vQhTU | bash -s -- --version 1.17.8
+wget -q -O - https://git.io/vQhTU | bash -s -- --version 1.19.4
 source ~/.bashrc
 
 ```
@@ -117,7 +116,7 @@ EOF
 source ~/.profile
 go version
 ```
-Output should be: `go version go1.17.8 linux/amd64`
+Output should be: `go version go1.19.4 linux/amd64`
 
 ### 3. Install meme from source
 Fetch and install the current Mainnet MEME version.
@@ -322,7 +321,7 @@ memed start
 
 ## MEME
 
-[![Website](https://raw.githubusercontent.com/memecosmos/assetlists/main/logo/meme-icon-500.png)](https://meme.sx)
+[![Website](https://raw.githubusercontent.com/memecosmos/assetlists/main/logo/meme-icon-500.png)](https://memenetwork.io)
 
 #### Crypto empowerment, even more MEMEingful.  
 #### Aim to provide a platform and tools to our community to create, question, answer and define about meme.
